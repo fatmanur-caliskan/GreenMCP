@@ -26,13 +26,13 @@ Integrate real-time data via external tools
 
 GreenMCP includes:
 
-🔹 Dispatcher (dispatcher_agent.py)
+Dispatcher (dispatcher_agent.py)
 
 Analyzes incoming prompts and selects the appropriate component
 
 Relies on a prompt-based routing guide (prompts/dispatcher.txt)
 
-🔹 Agents (agents/)
+Agents (agents/)
 
 Modular agents for QA, coaching, narrative analysis, and reporting
 
@@ -40,13 +40,13 @@ Each agent is defined via agent_configs.yaml (name, model, backend, prompt)
 
 Uses agent_base.py for prompt loading and response formatting
 
-🔹 In-code LLMs
+In-code LLMs
 
 Configurable models via transformers_backend.py or ollama
 
 Supports quantization and device selection via environment variables and llm_runner.py
 
-🔹 Microservice Tools (tools/, services/)
+Microservice Tools (tools/, services/)
 
 Defined modularly in tools.yaml with tool ID, endpoint, method, parameters
 
@@ -54,7 +54,7 @@ Registered at runtime via load_tools.py and tool_registry.py
 
 Called via tools/client.py using JSON-RPC or HTTP
 
-🔹 Configuration Driven Design
+Configuration Driven Design
 
 agent_configs.yaml: Defines all agents and their models/prompts
 
@@ -76,4 +76,60 @@ The system merges and formats the output into a complete, human-readable respons
 
 GreenMCP blends reasoning (agents), real-world data (tools), and natural language (LLMs) into a unified, intelligent assistant system — privacy-friendly, explainable, and extensible by design.
 
-Ideal for use in sustainability apps, educational tools, or intelligent assistants.
+GreenMCP Nedir (Türkçe)
+
+GreenMCP, Model Context Protocol (MCP) mimarisi üzerine kurulmuş modüler bir yapay zekâ sistemidir. Kullanıcının doğal dil girdilerini analiz eder, görevi uygun ajanlara veya araçlara yönlendirir, sonuçları birleştirerek tek ve anlaşılır bir yanıt sunar.
+
+MCP Nedir?
+
+MCP, çok ajanlı sistemlerde doğal dildeki istekleri:
+
+Amacına göre çözümler,
+
+Doğru modüle (agent/tool) yönlendirir,
+
+Gerekirse model, API veya kural tabanlı iş akışlarıyla yanıtlar üretir.
+
+GreenMCP Ne Sunar?
+
+GreenMCP, çevresel farkındalık için geliştirilmiş bir MCP sistemidir:
+
+Çevreci kararlar almayı destekler
+
+Yerel LLM ajanlarıyla bilinçli öneriler üretir
+
+Hava durumu, karbon hesaplama gibi mikroservislerle veri temelli çalışır
+
+Modüller şunlardır:
+
+Dispatcher
+
+dispatcher_agent.py → Girdiyi analiz eder, yönlendirir
+
+dispatcher.txt → Yönlendirme kuralları burada tutulur
+
+Ajanlar (agents/)
+
+Her bir görev için ayrı dosya: qa_agent.py, coach_agent.py, narrative_agent.py...
+
+Yapılandırmalar agent_configs.yaml içinde
+
+Ortak LLM çağrısı agent_base.py ve llm_runner.py içinde tanımlıdır
+
+Kod içi LLM’ler
+
+Transformers tabanlı ya da Ollama ile çağrılır (transformers_backend.py)
+
+Her modelin konfigürasyonu .env üzerinden değiştirilebilir
+
+Mikroservis Araçları
+
+Tanımlar tools.yaml içinde YAML formatında
+
+Her tool, services/*/main.py olarak bağımsızdır (FastAPI tabanlı)
+
+Araç istemcisi: tools/client.py
+
+Konfigürasyon Odaklı Yapı
+
+agent_configs.yaml: Her agent'ın modeli, promptu, backend'i burada
