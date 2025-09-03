@@ -14,6 +14,7 @@ Dynamic routing of user input based on intent and context
 
 Combining model-generated, tool-driven, and rule-based outputs in a single flow
 
+
 What is GreenMCP?
 
 GreenMCP is a sustainability-focused implementation of the MCP pattern. It is designed to:
@@ -24,12 +25,14 @@ Provide smart insights through in-house LLM agents
 
 Integrate real-time data via external tools
 
+
 GreenMCP includes:
 Dispatcher (dispatcher_agent.py)
 
 Analyzes incoming prompts and selects the appropriate component
 
 Relies on a prompt-based routing guide (prompts/dispatcher.txt)
+
 
 Agents (agents/)
 
@@ -39,11 +42,13 @@ Each agent is defined via agent_configs.yaml (name, model, backend, prompt)
 
 Uses agent_base.py for prompt loading and response formatting
 
+
 In-code LLMs
 
 Configurable models via transformers_backend.py or ollama
 
 Supports quantization and device selection via environment variables and llm_runner.py
+
 
 Microservice Tools (tools/, services/)
 
@@ -52,6 +57,7 @@ Defined modularly in tools.yaml with tool ID, endpoint, method, parameters
 Registered at runtime via load_tools.py and tool_registry.py
 
 Called via tools/client.py using JSON-RPC or HTTP
+
 
 Configuration Driven Design
 
@@ -62,6 +68,7 @@ tools.yaml: Describes external microservices
 prompts/*.txt: All prompt templates are externalized and editable
 
 mcp.yaml: (optional) Project-level metadata for orchestrating deployments
+
 
 How It Works
 
