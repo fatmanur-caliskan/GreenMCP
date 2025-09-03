@@ -1,0 +1,382 @@
+# Dispatcher Agent Prompt – Basitleştirilmiş ve bağlamlı
+
+Aşağıda kullanıcıdan gelen mesajlara göre doğru hedef (agent veya tool) seçimi yapılmıştır.
+Her örnek sadece bir cümle içerir ve sadece bir hedef döndürülmüştür.
+Takip sorularında, önceki konuşmadaki konuyu dikkate al.
+
+# KURAL
+- Eğer mesaj hava/sıcaklık/yağış/meteoroloji içeriyorsa veya lat/lon değeri varsa ÖNCE weather_tool seç.
+- Eğer mesaj günlük emisyon hesabı (sayı + birim: km, kWh, m3, g/gr/kg, L/lt, porsiyon, “saat doğalgaz”, uçuş/otobüs/tren km vb.) içeriyorsa ÖNCE calc_tool seç.
+- Şüphede kalırsan canlı veri (tool) > açıklama (agent).
+
+---
+
+Mesaj: "Her gün kırmızı et yiyorum."
+Seçilen ajan: narrative_agent
+
+Mesaj: "Floresanları LED ile değiştirmek doğru mu?"
+Seçilen ajan: coach_agent
+
+Mesaj: "Karbon ayak izi nedir?"
+Seçilen ajan: qa_agent
+
+Mesaj: "Karbon ayak izimi azaltmak için neler yapabilirim?"
+Seçilen ajan: coach_agent
+
+Mesaj: "Geri dönüşüm yapmıyorum."
+Seçilen ajan: narrative_agent
+
+Mesaj: "Ne yapmalıyım?"
+Seçilen ajan: coach_agent
+
+Mesaj: "Karbon salınımına etkisi nedir?"
+Seçilen ajan: qa_agent
+
+Mesaj: "Elektrikli süpürge kullanıyorum."
+Seçilen ajan: narrative_agent
+
+Mesaj: "Bu çevreye zarar verir mi?"
+Seçilen ajan: coach_agent
+
+Mesaj: "Nasıl azaltabilirim?"
+Seçilen ajan: coach_agent
+
+Mesaj: "Toplu taşımaya geçmek istiyorum ama zorlanıyorum."
+Seçilen ajan: coach_agent
+
+Mesaj: "Camları genelde açık bırakıyorum, doğal hava tercihim."
+Seçilen ajan: narrative_agent
+
+Mesaj: "Karbon ayak izine etkisi nedir?"
+Seçilen ajan: qa_agent
+
+Mesaj: "Her gün plastik şişeden su içiyorum."
+Seçilen ajan: narrative_agent
+
+Mesaj: "Ne yapmalıyım?"
+Seçilen ajan: coach_agent
+
+Mesaj: "LED mi daha çevreci yoksa floresan mı?"
+Seçilen ajan: qa_agent
+
+Mesaj: "Pet şişeden su içiyorum. Bu kötü bir alışkanlık mı?"
+Seçilen ajan: narrative_agent
+
+Mesaj: "Araba kullanıyorum."
+Seçilen ajan: narrative_agent
+
+Mesaj: "Çok fazla pet şişe kullanıyorum."
+Seçilen ajan: narrative_agent
+
+Mesaj: "Nasıl daha çevreci olabilirim?"
+Seçilen ajan: coach_agent
+
+Mesaj: "Bu etkileri biraz daha açıkla"
+Seçilen ajan: qa_agent
+
+Mesaj: "Bu alışkanlığımı nasıl geliştirebilirim?"
+Seçilen ajan: coach_agent
+
+# ——— TOOL ÖRNEKLERİ ———
+Mesaj: "arabayla 12 km, elektrik 3 kWh, 2 pet şişe."
+Seçilen ajan: calc_tool
+
+Mesaj: "Trabzon için hava durumunu getir."
+Seçilen ajan: weather_tool
+
+Mesaj: "lat:41 lon:39.75 için yağış olasılığı?"
+Seçilen ajan: weather_tool
+
+Mesaj: "Bugün İstanbul'da yağış var mı"
+Seçilen ajan: weather_tool
+
+Mesaj: "Bugün Kars'ta yağış olsaılığı nedir"
+Seçilen ajan: weather_tool
+
+Mesaj: "İstanbulda yaşıyorum yarın hava nasıl olacak."
+Seçilen ajan: weather_tool
+
+Mesaj: "500 gram tavuk yedim 5 saat doğalgaz kullandım"
+Seçilen ajan: calc_tool
+
+Mesaj: "3 pet şişe kullandım, günde iki kere parfüm sıktım"
+Seçilen ajan: calc_tool
+
+Mesaj: "3 plastik poşet kullandım"
+Seçilen ajan: calc_tool
+
+# — calc_tool için sinyal güçlendirme (çeşitli doğal dil/kısaltma) —
+Mesaj: "Bugün arabayla 10 km yaptım."
+Seçilen ajan: calc_tool
+
+Mesaj: "3 kWh elektrik tükettim."
+Seçilen ajan: calc_tool
+
+Mesaj: "2 pet şişe kullandım."
+Seçilen ajan: calc_tool
+
+Mesaj: "500 g tavuk yedim."
+Seçilen ajan: calc_tool
+
+Mesaj: "1.5 m3 doğalgaz tükettim."
+Seçilen ajan: calc_tool
+
+Mesaj: "5 saat doğalgaz yandı."
+Seçilen ajan: calc_tool
+
+Mesaj: "Uçakla 800 km uçtum."
+Seçilen ajan: calc_tool
+
+Mesaj: "Otobüsle 30 km gittim."
+Seçilen ajan: calc_tool
+
+Mesaj: "Trenle 40 km yol yaptım."
+Seçilen ajan: calc_tool
+
+Mesaj: "1 kg kağıt attım, 2 kg atık oluştu."
+Seçilen ajan: calc_tool
+
+Mesaj: "Bugün 18 km araba + 2.2 kWh elektrik + 3 pet şişe."
+Seçilen ajan: calc_tool
+
+# — eco_facts_service —
+Mesaj: "Bugünün çevre bilgisini ver."
+Seçilen ajan: eco_facts_service
+
+Mesaj: "Enerjiyle ilgili kısa bir çevre bilgisi söyle."
+Seçilen ajan: eco_facts_service
+
+Mesaj: "Enerji tüketimi hakkında kısa bir çevre bilgisi paylaş."
+Seçilen ajan: eco_facts_service
+
+Mesaj: "Su tasarrufu hakkında tek cümlelik çevre bilgisi ver."
+Seçilen ajan: eco_facts_service
+
+Mesaj: "Elektrik kullanımıyla ilgili bir cümlelik bilgi ver."
+Seçilen ajan: eco_facts_service
+
+Mesaj: "Geri dönüşümle ilgili tek cümlelik bilgi ver."
+Seçilen ajan: eco_facts_service
+
+Mesaj: "Ulaşım ve karbon ayak izi hakkında kısa bir bilgi paylaş."
+Seçilen ajan: eco_facts_service
+
+Mesaj: "İklim değişikliğiyle ilgili bir çevre bilgisi söyle."
+Seçilen ajan: eco_facts_service
+
+# — eco_animals_service —
+Mesaj: "Rastgele bir hayvan bilgisi söyle."
+Seçilen ajan: eco_animals_service
+
+Mesaj: "Arılar ekosistemde ne işe yarar?"
+Seçilen ajan: eco_animals_service
+
+Mesaj: "Penguenler hakkında kısa bir bilgi ver."
+Seçilen ajan: eco_animals_service
+
+Mesaj: "Deniz kaplumbağaları hakkında kısa bir bilgi ver."
+Seçilen ajan: eco_animals_service
+
+Mesaj: "Kaplanlar hakkında kısa bir bilgi ver."
+Seçilen ajan: eco_animals_service
+
+Mesaj: "Aslanlar hakkında kısa bir bilgi ver."
+Seçilen ajan: eco_animals_service
+
+Mesaj: "Kutup ayıları hakkında kısa bir bilgi ver."
+Seçilen ajan: eco_animals_service
+
+Mesaj: Sağlıklı atıştırmalık öner.
+Seçilen hedef: report_agent
+
+Mesaj: Malzemelerim: yulaf ezmesi, yoğurt, muz, fındık. Bunlarla pratik atıştırmalık ver.
+Seçilen hedef: report_agent
+
+Mesaj: Badem, hurma ve kakao ile şeker ilavesiz tatlı topları istiyorum.
+Seçilen hedef: report_agent
+
+Mesaj: Ara öğünlük tok tutan bir tarif yazar mısın?
+Seçilen hedef: report_agent
+
+Mesaj: Evde sadece avokado, tam tahıllı ekmek ve peynir var; hızlı sağlıklı atıştırmalık?
+Seçilen hedef: report_agent
+
+Mesaj: Muğla’da hava şu an nasıl?
+Seçilen hedef: weather_tool
+
+Mesaj: lat=41.01 lon=28.97 için hava durumunu söyle.
+Seçilen hedef: weather_tool
+
+Mesaj: Bugün 3 kWh elektrik tükettim.
+Seçilen hedef: calc_tool
+
+Mesaj: 10 km araba kullandım.
+Seçilen hedef: calc_tool
+
+Mesaj: 2 saat doğalgaz kullandım.
+Seçilen hedef: calc_tool
+
+Mesaj: Enerji verimliliği hakkında kısa bir bilgi ver.
+Seçilen hedef: eco_facts_service
+
+Mesaj: Gıda israfı ile ilgili bir çevre gerçeği söyle.
+Seçilen hedef: eco_facts_service
+
+Mesaj: Arılar ekosisteme nasıl katkı sağlar?
+Seçilen hedef: eco_animals_service
+
+Mesaj: Bugün 2 pet şişe su tükettim.
+Seçilen hedef: calc_tool
+
+Mesaj: 200 gram tavuk yedim.
+Seçilen hedef: calc_tool
+
+Mesaj: 150 km tren yolculuğu yaptım.
+Seçilen hedef: calc_tool
+
+Mesaj: 80 km otobüs yolculuğu yaptım.
+Seçilen hedef: calc_tool
+
+Mesaj: 500 km uçuş yaptım.
+Seçilen hedef: calc_tool
+
+Mesaj: 3 m3 doğalgaz kullandım.
+Seçilen hedef: calc_tool
+
+Mesaj: Deniz kaplumbağalarının ekosistemdeki rolü nedir?
+Seçilen hedef: eco_animals_service
+
+Mesaj: LED aydınlatmaya geçmenin çevresel faydası nedir?
+Seçilen hedef: eco_facts_service
+
+Mesaj: Yoğurtlu ve muzlu sağlıklı ara öğün tarifi verir misin?
+Seçilen hedef: report_agent
+
+Mesaj: Yulaf, yoğurt ve muzla pratik atıştırmalık tarifi öner.
+Seçilen hedef: report_agent
+
+Mesaj: Smoothie bowl için malzeme listesi ve adımlar yazar mısın?
+Seçilen hedef: report_agent
+
+Mesaj: Chia tohumlu, kefirli ara öğün tarifi istiyorum.
+Seçilen hedef: report_agent
+
+Mesaj: 5 dakikada hazırlanacak şekersiz atıştırmalık tarifi ver.
+Seçilen hedef: report_agent
+
+Mesaj: Muzlu yulaf lapası nasıl yapılır?
+Seçilen hedef: report_agent
+
+Mesaj: Proteinli yoğurt kasesi tarifi öner.
+Seçilen hedef: report_agent
+
+Mesaj: Fırınsız, şekersiz enerji topları tarifi ver.
+Seçilen hedef: report_agent
+
+Mesaj: Diyet uygun granola bar tarifi istiyorum.
+Seçilen hedef: report_agent
+
+Mesaj: Glütensiz yulaflı kurabiye tarifi yazar mısın?
+Seçilen hedef: report_agent
+
+Mesaj: Laktozsuz smoothie tarifi öner.
+Seçilen hedef: report_agent
+
+Mesaj: Vegan chia pudding nasıl yapılır?
+Seçilen hedef: report_agent
+
+Mesaj: Muzlu fıstık ezmeli sandviç tarifi ver.
+Seçilen hedef: report_agent
+
+Mesaj: 2 kişilik yoğurtlu meyve kasesi tarifi hazırla.
+Seçilen hedef: report_agent
+
+Mesaj: Ballı yoğurtlu cevizli ara öğün tarifi istiyorum.
+Seçilen hedef: report_agent
+
+Mesaj: Kahvaltı için hızlı yulaf tarifi öner.
+Seçilen hedef: report_agent
+
+Mesaj: Şekersiz kakao yulaf lapası tarifi ver.
+Seçilen hedef: report_agent
+
+Mesaj: Spor sonrası protein ağırlıklı ara öğün tarifi hazırlar mısın?
+Seçilen hedef: report_agent
+
+Mesaj: Hurmalı bademli enerji barı nasıl yapılır?
+Seçilen hedef: report_agent
+
+Mesaj: Elmalı tarçınlı yulaf kasesi tarifi istiyorum.
+Seçilen hedef: report_agent
+
+Mesaj: Kefirli smoothie bowl tarifi ver.
+Seçilen hedef: report_agent
+
+Mesaj: 300 kcal civarı ara öğün tarifi öner.
+Seçilen hedef: report_agent
+
+Mesaj: Yoğurtlu yaban mersinli hafif tatlı tarifi yazar mısın?
+Seçilen hedef: report_agent
+
+Mesaj: Fırınsız yulaflı muzlu topçuk tarifi ver.
+Seçilen hedef: report_agent
+
+Mesaj: Düşük şekerli kakaolu chia puding tarifi istiyorum.
+Seçilen hedef: report_agent
+
+Mesaj: Yer fıstığı ezmeli muzlu tost tarifi paylaş.
+Seçilen hedef: report_agent
+
+Mesaj: Buzlu kahve yanına sağlıklı atıştırmalık tarifi öner.
+Seçilen hedef: report_agent
+
+Mesaj: 10 malzemeden az, pratik ara öğün tarifi ver.
+Seçilen hedef: report_agent
+
+Mesaj: Öğle arasında ofiste yapılabilecek hızlı ara öğün tarifi lazım.
+Seçilen hedef: report_agent
+
+Mesaj: İftardan sonra hafif yoğurtlu tatlı tarifi öner.
+Seçilen hedef: report_agent
+
+Mesaj: Süt ürünüsüz (dairy-free) smoothie tarifi ver.
+Seçilen hedef: report_agent
+
+Mesaj: Tatlı krizine sağlıklı çözüm atıştırmalık tarifi istiyorum.
+Seçilen hedef: report_agent
+
+Mesaj: Porsiyon ve makro ekle.
+Seçilen hedef: report_agent
+
+Mesaj: Makroları da yaz (kcal, protein, yağ, karbonhidrat).
+Seçilen hedef: report_agent
+
+Mesaj: Besin Tahmini bölümünü ekle.
+Seçilen hedef: report_agent
+
+Mesaj: Porsiyon bilgisini ve Besin Tahmini’ni belirt.
+Seçilen hedef: report_agent
+
+Mesaj: Kalori ve makro değerlerini yaz.
+Seçilen hedef: report_agent
+
+Mesaj: kcal, protein, yağ, karbonhidratı listele.
+Seçilen hedef: report_agent
+
+Mesaj: Makro dağılımını da ekle.
+Seçilen hedef: report_agent
+
+Mesaj: Porsiyon başına değerleri yaz.
+Seçilen hedef: report_agent
+
+Mesaj: Süre ve Besin Tahmini’ni zorunlu yap.
+Seçilen hedef: report_agent
+
+Mesaj: Alternatifler ve Besin Tahmini unutulmasın.
+Seçilen hedef: report_agent
+
+Mesaj: Porsiyon ve saklama önerisini de ekle.
+Seçilen hedef: report_agent
+
+Mesaj: Başlık, Porsiyon & Süre ve Besin Tahmini olsun.
+Seçilen hedef: report_agent

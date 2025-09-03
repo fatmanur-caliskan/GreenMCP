@@ -1,0 +1,46 @@
+tools:
+  calc_tool:
+    class: greenmcp4.mcp_server.tools.calculate_emission.CalcTool
+    enabled: true
+    params:
+      base_url: ${CALC_BASE_URL|http://localhost:8001}
+      timeout: 8
+
+  weather_tool:
+    class: greenmcp4.mcp_server.tools.get_weather.WeatherTool
+    enabled: true
+    params:
+      base_url: ${WEATHER_BASE_URL|http://localhost:8002}
+      timeout: 8
+
+  eco_facts_service:
+    class: greenmcp4.mcp_server.tools.http_json_tool.HttpJsonTool
+    enabled: true
+    params:
+      base_url: ${ECO_FACTS_BASE_URL|http://localhost:8011}
+      path: /query
+      method: POST
+      body_mode: template
+      template: '{"intent":"eco_fact","lang":"tr","text":"{{input}}"}'
+      headers:
+        Content-Type: application/json
+      response_key: text
+
+  eco_animals_service:
+    class: greenmcp4.mcp_server.tools.http_json_tool.HttpJsonTool
+    enabled: true
+    params:
+      base_url: ${ECO_ANIMALS_BASE_URL|http://localhost:8012}
+      path: /query
+      method: POST
+      body_mode: template
+      template: '{"intent":"eco_animal","lang":"tr","text":"{{input}}"}'
+      headers:
+        Content-Type: application/json
+      response_key: text
+
+# Ajan → tool erişim yetkisi
+allow:
+  coach_agent:    [calc_tool, weather_tool]
+  qa_agent:       [calc_tool, weather_tool, eco_facts_service, eco_animals_service]
+  narrative_agent: []

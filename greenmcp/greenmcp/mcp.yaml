@@ -1,0 +1,7 @@
+#greenmcp4/mcp.yaml
+name: GreenMCP
+version: "1.0"
+description: "LLM ajanları + mikroservis tool'ları olan MCP sunucusu"
+endpoints:
+  - path: /chat
+  - path: /ask

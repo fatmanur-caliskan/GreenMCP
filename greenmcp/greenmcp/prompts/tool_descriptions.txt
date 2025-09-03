@@ -1,0 +1,4 @@
+calc_tool: Kullanıcıdan doğal dille verilen mesafeler (km), elektrik (kWh), pet şişe adedi ve tavuk porsiyonunu çıkarır; carbon-calc-svc /calc ile toplam CO₂e döndürür.
+weather_tool: Kullanıcıdan lat/lon veya bilinen şehir adı çıkarır; weather-proxy /weather ile sıcaklık ve yağış olasılığını döndürür.
+eco_facts_service: Tek cümlelik çevre/iklim/enerji bilgisi döndürür (intent=eco_fact, topic/level/lang opsiyonel).
+eco_animals_service: Hayvan ve ekosistem rolüne dair kısa bilgi döndürür (intent=eco_animal, species/biome/level/lang opsiyonel).

@@ -1,0 +1,29 @@
+
+agents:
+  coach_agent:
+    model: llama3:8b
+    prompt_path: prompts/coach.txt
+    type: chat
+
+  narrative_agent:
+    model: gemma3n:e4b
+    prompt_path: prompts/narrative.txt
+    type: chat
+
+  qa_agent:
+    model: qwen3:8b
+    prompt_path: prompts/qa.txt
+    type: template
+
+  report_agent:
+    model: microsoft/Phi-4-mini-instruct
+    type: chat
+    backend: transformers
+    prompt_path: prompts/report.txt
+    temperature: 0.3
+    max_tokens: 256
+    system_prompt: ""
+
+dispatcher:
+  model: gemma3n:e4b
+  prompt_path: prompts/dispatcher.txt
